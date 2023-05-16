@@ -1,34 +1,47 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+} from "react-native";
+import { Phrase } from "./Phrase";
 
 export default function App() {
-  const [phrases, setPhrases] = useState(["in a bottle", "not much", "unlike this one"]);
+  const [phrases, setPhrases] = useState([
+    { id: 1, text: "in a bottle" },
+    { id: 2, text: "not much" },
+    { id: 3, text: "unlike this one" },
+  ]);
 
   return (
-    <ScrollView>
-  {phrases.map((phrase) => (
-    <View>
-    <TextInput 
-      style={{height: 40}} 
-      placeholder="Your lyrics" 
-      onChangeText={newPhrase => setPhrases([newPhrase, ...phrases])}
-      defaultValue={phrase} />
-    </View>
-  ))}
-      <Text>Songwriter Begin!</Text>
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-    </View>
-    </ScrollView>
+    <SafeAreaView>
+      <Text style={styles.titleText}>Songwriter Begin!</Text>
+
+      <FlatList
+        data={phrases}
+        keyExtractor={(item, index) => item + index}
+        renderItem={({ item }) => <Phrase phrase={item} />}
+      />
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
